@@ -11,6 +11,7 @@ export default function Home() {
 
       <main>
         <h1 className="title">
+          Updated by git push!
           Welcome to <a href="https://nextjs.org">Next.js!</a>
           {num}
         </h1>
