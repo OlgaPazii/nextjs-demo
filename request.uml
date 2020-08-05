@@ -1,0 +1,26 @@
+@startuml
+
+  participant Page
+  box "next.js" #LightBlue
+    participant next.js
+    participant DBMiddleware
+    participant pageRender
+  end box
+  Page -> next.js: Page request
+
+  database MongoDb
+
+    next.js -> DBMiddleware
+    DBMiddleware -> MongoDb
+    activate MongoDb
+
+    DBMiddleware <- MongoDb
+    deactivate MongoDb
+
+    DBMiddleware -> pageRender
+
+  next.js <- pageRender
+  Page <- next.js
+
+
+@enduml

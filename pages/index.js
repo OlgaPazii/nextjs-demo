@@ -1,11 +1,13 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import Navigator from '../components/navigator';
 
 export default function Home() {
   const num = Math.floor(Math.random() * 100);
   return (
-    <div className="container">
+    <Navigator>
+
       <Head>
-        <title>Create Next App</title>
+        <title>Main title</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -17,6 +19,6 @@ export default function Home() {
         </h1>
       </main>
 
-    </div>
+    </Navigator>
   )
 }

@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  nav {
+    font-size: 26px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #ddd;
+  }
+}
