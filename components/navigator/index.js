@@ -11,6 +11,7 @@ export default ({ children }) => {
       <nav>
         <Link href="/"><a>Main Page</a></Link>
         <Link href="/help"><a>Help Page</a></Link>
+        <Link href="/table"><a>Table Page</a></Link>
       </nav>
       <main>
         {children}

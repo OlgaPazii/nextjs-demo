@@ -14,5 +14,10 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "sass": "1.26.10"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.44",
+    "react-deck-o-cards": "1.1.0",
+    "typescript": "^3.9.7"
   }
 }
