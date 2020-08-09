@@ -14,6 +14,7 @@ class TableService extends EventEmitter {
 
   deck: Deck = new Deck();
   players: Player[] = [];
+  currentPlayerId: string = null;
 
 
   constructor() {
@@ -43,7 +44,8 @@ class TableService extends EventEmitter {
   }
 
   update() {
-    fetch('http://localhost:5000/update');
+    const url = (process.env.LONGPOLLER_URL || 'http://localhost:5000');
+    fetch(`${url}/update`);
     this.emit('update', this.getData());
   }
 
