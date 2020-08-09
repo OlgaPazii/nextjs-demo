@@ -32,7 +32,6 @@ interface TablePageProps {
 export default function TablePage(props: TablePageProps) {
   const [data, updateData] = useState(props.tableData);
 
-
   useEffect(function() {
     getUpdate(updateData);
   }, [data]);
@@ -55,21 +54,25 @@ export default function TablePage(props: TablePageProps) {
   );
 }
 
-export const getServerSideProps = (context: NextPageContext) => {
+export const getServerSideProps = async (context: NextPageContext) => {
   const cookies = parseCookies(context.req.headers.cookie);
 
   const playerId = cookies.playerId;
-  const tableData = tableService.getData();
 
-  let player = tableData.players.find(player => player.id === playerId);
+  await tableService.loadRemoteData();
+
+  let player = tableService.players.find(player => player.id === playerId);
 
   if (!player) {
     player = tableService.addPlayer(`Player ${tableService.players.length + 1}`);
-    player.hand.push(tableData.deck.pop());
-    player.hand.push(tableData.deck.pop());
+    player.hand.push(tableService.getCard());
+    player.hand.push(tableService.getCard());
     context.res.setHeader('Set-Cookie', `playerId=${player.id}`);
   }
 
+  console.log(tableService.getData());
+
+  await tableService.update();
   return {
     props: {
       tableData: tableService.getData(),

@@ -1,8 +1,9 @@
+import fs from 'fs';
 import { Player, PlayerData } from '../models/player';
 import { CardModel } from '../models/card';
-import { EventEmitter } from 'events';
 import { Deck } from '../models/deck';
 
+const url = (process.env.LONGPOLLER_URL || 'http://localhost:5000');
 
 export interface TableData {
   deck: CardModel[];
@@ -10,23 +11,24 @@ export interface TableData {
   currentPlayerId: string;
 }
 
-class TableService extends EventEmitter {
+export class TableService {
 
   deck: Deck = new Deck();
   players: Player[] = [];
   currentPlayerId: string = null;
 
-
   constructor() {
-    super();
+    this.deck.shuffle();
   }
 
   addPlayer(name: string) {
     const player = new Player(name);
-
     this.players.push(player);
-    this.update();
     return player;
+  }
+
+  getCard() {
+    return this.deck.getCard();
   }
 
   getData(): TableData {
@@ -37,21 +39,34 @@ class TableService extends EventEmitter {
     }
   }
 
-  addCard(card) {
-    // this.deck.push(card);
-    this.update();
+  async update() {
+    const body = JSON.stringify(this.getData(), null, 4);
 
+    await fetch(`${url}/setData`, {
+      body,
+      method: 'POST',
+    });
   }
 
-  update() {
-    const url = (process.env.LONGPOLLER_URL || 'http://localhost:5000');
-    fetch(`${url}/update`);
-    this.emit('update', this.getData());
+  async loadRemoteData() {
+    const res = await fetch(`${url}/getData`);
+    const jsonData: TableData = await res.json();
+
+    this.currentPlayerId = jsonData.currentPlayerId;
+    this.players = Player.fromArray(jsonData.players);
+    if (jsonData.deck && jsonData.deck.length) {
+      this.deck = Deck.from(jsonData.deck);
+    } else {
+      this.deck = new Deck();
+      this.deck.shuffle();
+    }
   }
 
   reset() {
     this.deck = new Deck();
+    this.deck.shuffle();
     this.players = [];
+    this.currentPlayerId = null;
     this.update();
   }
 

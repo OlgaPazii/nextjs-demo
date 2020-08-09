@@ -3,11 +3,7 @@ import { RANK } from '../enums/rank';
 import { SUIT } from '../enums/suit';
 
 export class Deck {
-  cards: CardModel[];
-
-  constructor() {
-    this.shuffle();
-  }
+  cards: CardModel[] = [];
 
   shuffle() {
     const newDeck = [];
@@ -27,4 +23,15 @@ export class Deck {
     }
   }
 
+  getCard() {
+    return this.cards.pop();
+  }
+
+  static from(data: CardModel[]) {
+    const deck = new Deck();
+    if (data) {
+      deck.cards = data;
+    }
+    return deck;
+  }
 }

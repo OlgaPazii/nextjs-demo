@@ -29,4 +29,16 @@ export class Player {
       hand: this.hand,
     }
   }
+
+  static from(playerData) {
+    const player = new Player(playerData.name);
+    player.id = playerData.id;
+    player.keypass = playerData.keypass;
+    player.hand = playerData.hand;
+    return player;
+  }
+
+  static fromArray(playersData: PlayerData[] = []) {
+    return playersData.map(playerData => Player.from(playerData));
+  }
 }
