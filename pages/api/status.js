@@ -1,5 +1,5 @@
 import nextConnect from 'next-connect';
-import middleware from '../../middleware/mongo';
+// import middleware from '../../middleware/mongo';
 
 /**
  * @param {*} req
@@ -12,7 +12,7 @@ const statusGetHandler = async (req, res) => {
 
 const handler = nextConnect();
 
-handler.use(middleware);
+// handler.use(middleware);
 handler.get(statusGetHandler);
 
 export default handler;

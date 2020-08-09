@@ -1,5 +1,5 @@
 import { RANK, SUIT } from '../enums';
-export class CardModel {
+export interface CardModel {
   rank: RANK;
   suit: SUIT;
 }

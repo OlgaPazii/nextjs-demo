@@ -3,3 +3,12 @@
   width: 80vw;
   height: 80vh;
 }
+
+.players {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.player {
+  border: 1px black solid;
+}
